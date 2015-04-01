@@ -1,4 +1,6 @@
-<%= form_for(@order) do |f| %>
+
+<%= form_for(@order, :as => :order, :url => (@order.new_record? ? order_url : order_url(@order) )) do |f| %>
+   <% if @sport_event.errors.any? %>
   <% if @order.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@order.errors.count, "error") %> prohibited this order from being saved:</h2>
@@ -11,9 +13,11 @@
     </div>
   <% end %>
 
+  <%= f.hidden_field :type %>
+
   <div class="field">
     <%= f.label :flavour %><br>
-    <%= f.text_field :flavour %>
+    <%= f.select :flavour, @order.class.kinds %>
   </div>
   <div class="field">
     <%= f.label :amount %><br>
